@@ -2,9 +2,9 @@
 #include "vektor.h"
 #include <iostream>
 
-CMyMatrix::CMyMatrix(){}
+CMyMatrix::CMyMatrix() {}
 
-CMyMatrix::~CMyMatrix(){}
+CMyMatrix::~CMyMatrix() {}
 
 void CMyMatrix::setMatrix(int x, int y) {
 	this->matrix.resize(y);
@@ -38,10 +38,10 @@ CMyMatrix CMyMatrix::invers() {
 	{
 		double vorfaktor = 1 / ((getComponent(0, 0) * getComponent(1, 1)) - (getComponent(0, 1) * getComponent(1, 0)));
 		double temp1 = getComponent(0, 0);
-		setComponent(0, 0, getComponent(1,1)*vorfaktor);
-		setComponent(1, 1, temp1*vorfaktor);
-		setComponent(0, 1, getComponent(0, 1) * -1*vorfaktor);
-		setComponent(1, 0, getComponent(1, 0) * -1*vorfaktor);
+		setComponent(0, 0, getComponent(1, 1) * vorfaktor);
+		setComponent(1, 1, temp1 * vorfaktor);
+		setComponent(0, 1, getComponent(0, 1) * -1 * vorfaktor);
+		setComponent(1, 0, getComponent(1, 0) * -1 * vorfaktor);
 		return *this;
 	}
 }
@@ -54,7 +54,7 @@ CMyVektor operator*(CMyMatrix A, CMyVektor x) {
 	{
 		for (int j = 0; j < A.getAnzahlZeilen(); j++) //Zeilen durchlaufen
 		{
-			zwischenergebnis = zwischenergebnis + A.getComponent(i,j) * x.getComponent(j);
+			zwischenergebnis = zwischenergebnis + A.getComponent(i, j) * x.getComponent(j);
 		}
 		result.setComponent(pos, zwischenergebnis);
 		pos++;
@@ -71,7 +71,13 @@ CMyVektor fMatrix(CMyVektor pVektor) {
 	vektor.setComponent(2, pVektor.getComponent(3));
 	return vektor;
 }
-
+CMyVektor fNewton(CMyVektor pVektor) {
+	CMyVektor vektor;
+	vektor.makeVektor(2);
+	vektor.setComponent(0, pow(pVektor.getComponent(0), 3.0) * pow(pVektor.getComponent(1), 3.0) - 2 * pVektor.getComponent(1));
+	vektor.setComponent(1, pVektor.getComponent(0) - 2);
+	return vektor;
+}
 CMyVektor gradMatrix(CMyVektor x, double (*funktion)(CMyVektor x)) {
 	CMyVektor gradient, temp;
 	gradient.makeVektor(x.getDimension());
@@ -99,13 +105,56 @@ CMyMatrix CMyMatrix::jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 	}
 	return result;
 }
-CMyVektor newton(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
+CMyVektor CMyMatrix::newton(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 	int schritt = 0;
+	CMyVektor fx = funktion(x);
+	CMyVektor dx;
+	CMyMatrix jacobi;
+	CMyMatrix jacobiInverse;
+	CMyVektor xAkt = x;
+	double betrag = 0.0;
 	while (true)
 	{
-		
-		
+		betrag = fx.getLength();
+		if (betrag <= pow(10, -5.0))
+		{
+			std::cout << "Ende wegen ||f(x)||<1e-5 bei" << std::endl;
+			std::cout << "\t" << "x = ( " << xAkt.getComponent(0) << "; " << xAkt.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "f(x) = ( " << fx.getComponent(0) << "; " << fx.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "||f(x)|| = " << betrag << std::endl;
+			break;
+		}
+		if (schritt >= 50)
+		{
+			std::cout << "Ende wegen ||f(x)||<1e-5 bei" << std::endl;
+			std::cout << "\t" << "x = ( " << xAkt.getComponent(0) << "; " << xAkt.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "f(x) = ( " << fx.getComponent(0) << "; " << fx.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "||f(x)|| = " << betrag << std::endl;
+			break;
+		}
+		jacobi = this->jacobi(xAkt, funktion);
+		jacobiInverse = jacobi.invers();
+		dx = -1.0 * (jacobiInverse * fx);
+
+		{
+			std::cout << "Schritt " << schritt << ":" << std::endl;
+			std::cout << "\t" << "x = ( " << xAkt.getComponent(0) << "; " << xAkt.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "f(x) = ( " << fx.getComponent(0) << "; " << fx.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "f'(x) =" << std::endl;
+			std::cout << "\t" << "\t" << "( " << jacobi.getComponent(0, 0) << "; " << jacobi.getComponent(0, 1) << std::endl;
+			std::cout << "\t" << "\t" << jacobi.getComponent(1, 0) << "; " << jacobi.getComponent(1, 0) << " )" << std::endl;
+			std::cout << "\t" << "(f'(x))^(-1) =" << std::endl;
+			std::cout << "\t" << "\t" << "( " << jacobiInverse.getComponent(0, 0) << "; " << jacobiInverse.getComponent(0, 1) << std::endl;
+			std::cout << "\t" << "\t" << jacobiInverse.getComponent(1, 0) << "; " << jacobiInverse.getComponent(1, 0) << " )" << std::endl;
+			std::cout << "\t" << "dx = ( " << dx.getComponent(0) << "; " << dx.getComponent(1) << ")" << std::endl;
+			std::cout << "\t" << "||f(x)|| = " << betrag << std::endl;
+		}
+
+		schritt++;
+		xAkt = xAkt + dx;
+		fx = funktion(xAkt);
 	}
+	return fx;
 }
 
 
