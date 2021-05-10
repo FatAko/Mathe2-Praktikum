@@ -15,6 +15,7 @@ public:
 	int getAnzahlZeilen();
 	int getAnzahlSpalten();
 	CMyMatrix jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x));
+	CMyVektor newton(CMyVektor x, CMyVektor(*funktion)(CMyVektor x));
 private:
 	std::vector<CMyVektor*> matrix;
 };

@@ -99,3 +99,13 @@ CMyMatrix CMyMatrix::jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 	}
 	return result;
 }
+CMyVektor newton(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
+	int schritt = 0;
+	while (true)
+	{
+		
+		
+	}
+}
+
+
