@@ -20,6 +20,5 @@ private:
 	std::vector<CMyVektor*> matrix;
 };
 CMyVektor operator*(CMyMatrix A, CMyVektor x);
-CMyVektor gradMatrix(CMyVektor x, double (*funktion)(CMyVektor x));
 CMyVektor fMatrix(CMyVektor pVektor);
 CMyVektor fNewton(CMyVektor pVektor);

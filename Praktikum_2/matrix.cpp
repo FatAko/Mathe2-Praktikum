@@ -78,17 +78,9 @@ CMyVektor fNewton(CMyVektor pVektor) {
 	vektor.setComponent(1, pVektor.getComponent(0) - 2);
 	return vektor;
 }
-CMyVektor gradMatrix(CMyVektor x, double (*funktion)(CMyVektor x)) {
-	CMyVektor gradient, temp;
-	gradient.makeVektor(x.getDimension());
-	for (int i = 0; i < x.getDimension(); i++) {
-		temp = x;
-		temp.setComponent(i, x.getComponent(i) + pow(10.0, -4.0));
-		gradient.setComponent(i, (funktion(temp) - funktion(x)) / pow(10.0, -4.0)); // besser: funktion(x) vor for Block
-	} return gradient;
-}
 CMyMatrix CMyMatrix::jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 	CMyMatrix result;
+	double h = 1e-4;
 	int spalte = 0;
 	int anzahlDurchgaenge = funktion(x).getDimension();
 	while (spalte < anzahlDurchgaenge)
@@ -97,8 +89,8 @@ CMyMatrix CMyMatrix::jacobi(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 		gradient->makeVektor(x.getDimension());
 		for (int i = 0; i < x.getDimension(); i++) {
 			temp = x;
-			temp.setComponent(i, x.getComponent(i) + pow(10.0, -4.0));
-			gradient->setComponent(i, (funktion(temp).getComponent(spalte) - funktion(x).getComponent(spalte)) / pow(10.0, -4.0)); // besser: funktion(x) vor for Block
+			temp.setComponent(i, x.getComponent(i) + h);
+			gradient->setComponent(i, (funktion(temp).getComponent(spalte) - funktion(x).getComponent(spalte)) / h);
 		}
 		result.matrix.push_back(gradient);
 		spalte++;
@@ -133,19 +125,20 @@ CMyVektor CMyMatrix::newton(CMyVektor x, CMyVektor(*funktion)(CMyVektor x)) {
 			break;
 		}
 		jacobi = this->jacobi(xAkt, funktion);
-		jacobiInverse = jacobi.invers();
-		dx = -1.0 * (jacobiInverse * fx);
-
 		{
 			std::cout << "Schritt " << schritt << ":" << std::endl;
 			std::cout << "\t" << "x = ( " << xAkt.getComponent(0) << "; " << xAkt.getComponent(1) << ")" << std::endl;
 			std::cout << "\t" << "f(x) = ( " << fx.getComponent(0) << "; " << fx.getComponent(1) << ")" << std::endl;
 			std::cout << "\t" << "f'(x) =" << std::endl;
 			std::cout << "\t" << "\t" << "( " << jacobi.getComponent(0, 0) << "; " << jacobi.getComponent(0, 1) << std::endl;
-			std::cout << "\t" << "\t" << jacobi.getComponent(1, 0) << "; " << jacobi.getComponent(1, 0) << " )" << std::endl;
+			std::cout << "\t" << "\t" << jacobi.getComponent(1, 0) << "; " << jacobi.getComponent(1, 1) << " )" << std::endl;
 			std::cout << "\t" << "(f'(x))^(-1) =" << std::endl;
+
+			jacobiInverse = jacobi.invers();
+			dx = -1.0 * (jacobiInverse * fx);
+
 			std::cout << "\t" << "\t" << "( " << jacobiInverse.getComponent(0, 0) << "; " << jacobiInverse.getComponent(0, 1) << std::endl;
-			std::cout << "\t" << "\t" << jacobiInverse.getComponent(1, 0) << "; " << jacobiInverse.getComponent(1, 0) << " )" << std::endl;
+			std::cout << "\t" << "\t" << jacobiInverse.getComponent(1, 0) << "; " << jacobiInverse.getComponent(1, 1) << " )" << std::endl;
 			std::cout << "\t" << "dx = ( " << dx.getComponent(0) << "; " << dx.getComponent(1) << ")" << std::endl;
 			std::cout << "\t" << "||f(x)|| = " << betrag << std::endl;
 		}
