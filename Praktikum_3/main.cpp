@@ -77,51 +77,6 @@ int main() {
 		cout << "Abweichung bei Heun bei 10000 Schritten: "; solverAbweichung.heun(start, ende, 10000, y2, true);
 		cout << endl;
 	}
-
-
-
-
-
-
-
-	
-	/*
-	C_DGLSolver solver(funk);
-	CMyVektor y;
-	y.makeVektor(2);
-	y.setComponent(0, 0); //y1(0) = 0
-	y.setComponent(1, 1); //y2(0) = 1
-	solver.euler(start, ende, schritte, y);
-	//solver.heun(start, ende, schritte, y);
-	*/
-	
-
-	/*
-	C_DGLSolver solverAbweichung(funkN);
-	start = 1;
-	CMyVektor y2;
-	y2.makeVektor(3);
-	y2.setComponent(0, 1);
-	y2.setComponent(1, -1);
-	y2.setComponent(2, 2);
-
-	cout << "Abweichung bei Euler bei 10 Schritten: "; solverAbweichung.euler(start, ende, 10, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Heun bei 10 Schritten: "; solverAbweichung.heun(start, ende, 10, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Euler bei 100 Schritten: "; solverAbweichung.euler(start, ende, 100, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Heun bei 100 Schritten: "; solverAbweichung.heun(start, ende, 100, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Euler bei 1000 Schritten: "; solverAbweichung.euler(start, ende, 1000, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Heun bei 1000 Schritten: "; solverAbweichung.heun(start, ende, 1000, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Euler bei 10000 Schritten: "; solverAbweichung.euler(start, ende, 10000, y2, true);
-	cout << endl;
-	cout << "Abweichung bei Heun bei 10000 Schritten: "; solverAbweichung.heun(start, ende, 10000, y2, true);
-	cout << endl;
-	*/
 	system("PAUSE");
 	return 0;
 }

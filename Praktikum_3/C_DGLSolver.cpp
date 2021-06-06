@@ -127,7 +127,7 @@ void C_DGLSolver::heun(double xstart, double xend, int anzahlSchritte, CMyVektor
 
 		y_Test = ystart + h * orig_ableitung; //normaler Rechenschritt ->euler
 		test_ableitung = ableitungen(y_Test, start + h);
-		y_Mittel = 0.5 * (orig_ableitung + test_ableitung);//mittelwert zwischen alten schritt und neuen
+		y_Mittel = 0.5 * (orig_ableitung + test_ableitung);
 
 		ystart = ystart + h * y_Mittel; //neuer wert berechnen
 
@@ -138,7 +138,7 @@ void C_DGLSolver::heun(double xstart, double xend, int anzahlSchritte, CMyVektor
 			std::cout << "\t" << "y'_Mittel = ( " << y_Mittel.getComponent(0) << "; " << y_Mittel.getComponent(1) << ")" << std::endl << std::endl;
 		}
 
-		start += h; //nächster schritt
+		start += h; 
 		y_Test = ystart;
 		orig_ableitung = ableitungen(ystart, start);
 
