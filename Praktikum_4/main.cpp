@@ -12,23 +12,19 @@ int main() {
 
     werte_ausgeben("transformiert(-1).txt", transformiert);
     vector<CKomplex> ruecktransformiert1 = fourier_ruecktrantransformation(werte_einlesen("transformiert(-1).txt"));
-    cout << "Maximale Abweichung bei Standart-Epsilon: ca. " << maxdiff(original, ruecktransformiert1) << endl;
-
+    cout << "Maximale Abweichung bei Standard-Epsilon: ca. " << abw(original, ruecktransformiert1) << endl;
     werte_ausgeben("transformiert(0.001).txt", transformiert, 0.001);
     vector<CKomplex> ruecktransformiert0001 = fourier_ruecktrantransformation(werte_einlesen("transformiert(0.001).txt"));
-    cout << "Maximale Abweichung bei epsilon=0.001: " << maxdiff(original, ruecktransformiert0001) << endl;
-
+    cout << "Maximale Abweichung bei epsilon=0.001: " << abw(original, ruecktransformiert0001) << endl;
     werte_ausgeben("transformiert(0.01).txt", transformiert, 0.01);
     vector<CKomplex> ruecktransformiert001 = fourier_ruecktrantransformation(werte_einlesen("transformiert(0.01).txt"));
-    cout << "Maximale Abweichung bei epsilon=0.01: " << maxdiff(original, ruecktransformiert001) << endl;
-
+    cout << "Maximale Abweichung bei epsilon=0.01: " << abw(original, ruecktransformiert001) << endl;
     werte_ausgeben("transformiert(0.1).txt", transformiert, 0.1);
     vector<CKomplex> ruecktransformiert01 = fourier_ruecktrantransformation(werte_einlesen("transformiert(0.1).txt"));
-    cout << "Maximale Abweichung bei epsilon=0.1: " << maxdiff(original, ruecktransformiert01) << endl;
-
+    cout << "Maximale Abweichung bei epsilon=0.1: " << abw(original, ruecktransformiert01) << endl;
     werte_ausgeben("transformiert(1).txt", transformiert, 1);
     vector<CKomplex> ruecktransformiert = fourier_ruecktrantransformation(werte_einlesen("transformiert(1).txt"));
-    cout << "Maximale Abweichung bei epsilon=1: " << maxdiff(original, ruecktransformiert) << endl;
+    cout << "Maximale Abweichung bei epsilon=1: " << abw(original, ruecktransformiert) << endl;
 
 	/*vector<CKomplex>a;
 	a.push_back(CKomplex(2, -3));

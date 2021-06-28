@@ -37,19 +37,21 @@ CKomplex operator*(double a, CKomplex b) {
 	return result;
 }
 
-//CKomplex operator*(double a, CKomplex b)
-//{
-//	double realt, ima;
-//	realt = a * b.re();
-//	ima = a * b.im();
-//	CKomplex result(realt, ima);
-//
-//	return result;
-//
-//}
-
 double CKomplex::abs() {
 	return sqrt((this->realteil*this->realteil)+(this->imaginaerteil*this->imaginaerteil));
+}
+
+double abw(std::vector<CKomplex> a, std::vector<CKomplex> b) {
+	double result = 0.0, tmp = 0.0;
+
+	for (int i = 0; i < a.size(); i++) {
+		tmp = (a.at(i) + ((-1) * b.at(i))).abs();
+		if (tmp > result) {
+
+			result = tmp;
+		}
+	}
+	return result;
 }
 
 std::vector<CKomplex>  werte_einlesen(const char* dateiname)
@@ -132,17 +134,6 @@ std::vector<CKomplex> fourier_ruecktrantransformation(std::vector<CKomplex> date
 		}
 		aktuell = (1 / sqrt(N)) * aktuell;
 		result.at(n) = aktuell;
-	}
-	return result;
-}
-
-double maxdiff(std::vector<CKomplex> a, std::vector<CKomplex> b)
-{
-	double result = 0.0, tmp = 0.0;
-	for (int i = 0; i < a.size(); i++) {
-		tmp = (a[i] + ((-1) * b[i])).abs();
-		if (tmp > result)
-			result = tmp;
 	}
 	return result;
 }

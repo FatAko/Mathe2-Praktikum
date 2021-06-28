@@ -28,4 +28,4 @@ void werte_ausgeben(const char* dateiname, std::vector<CKomplex> werte, double e
 std::vector<CKomplex> fourier_hintrantransformation(std::vector<CKomplex> daten);
 std::vector<CKomplex> fourier_ruecktrantransformation(std::vector<CKomplex> daten);
 
-double maxdiff(std::vector<CKomplex> a, std::vector<CKomplex> b);
+double abw(std::vector<CKomplex> a, std::vector<CKomplex> b);
