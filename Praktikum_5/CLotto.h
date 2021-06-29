@@ -9,6 +9,7 @@ public:
 	~CLotto();
 
 	void tippzettel_setzen();
+	void tippzettel_setzen(std::vector<int> tippzettel);
 	std::vector<int> kausNLottoZiehung();
 	std::vector<int> kausNLottoRichtig();
 
@@ -18,5 +19,8 @@ private:
 	int k = 0, n = 0, s = 0;
 
 };
+
+void montecarlo(int r, int k, int n, double N, bool typ);
+bool contains(int wert, std::vector<int> werte);
 
 

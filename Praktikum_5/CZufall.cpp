@@ -18,7 +18,6 @@ void CZufall::initialisiere(int s) {
 std::vector<int> CZufall::test(int a, int b, int N) {
 	std::vector<int> werte;
 	std::vector<int> haeufigkeiten(N,0);
-
 	for (int i = 0; i < N; i++)
 	{
 		werte.push_back(wert(a,b));
